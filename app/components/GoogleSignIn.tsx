@@ -3,6 +3,11 @@
 // app/components/GoogleSignIn.tsx
 import React, { useEffect } from "react";
 
+interface GoogleCredentialResponse {
+  credential: string;
+  [key: string]: any; // Esto permite otros campos adicionales en la respuesta
+}
+
 const GoogleSignIn = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -28,7 +33,7 @@ const GoogleSignIn = () => {
     }
   }, []);
 
-  const handleCredentialResponse = (response) => {
+  const handleCredentialResponse = (response: GoogleCredentialResponse) => {
     console.log("Encoded JWT ID token: " + response.credential);
     fetch("/tokensignin", {
       method: "POST",
