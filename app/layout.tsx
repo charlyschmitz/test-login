@@ -65,7 +65,11 @@ export default function RootLayout({
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      ></body>
+      >
+        {children}
+        <h2>Me gusta la fafafa mi locro</h2>
+        <div id="g-signin2"></div>
+      </body>
     </html>
   );
 }
