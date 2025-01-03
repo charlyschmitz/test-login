@@ -24,11 +24,48 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          src="https://accounts.google.com/gsi/client"
+          async
+          defer
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.onload = function () {
+                google.accounts.id.initialize({
+                  client_id: '219903509938-h6nvmjjaj4b457o2duau06cicua1slv8.apps.googleusercontent.com',
+                  callback: handleCredentialResponse
+                });
+                google.accounts.id.renderButton(
+                  document.getElementById("g-signin2"),
+                  { theme: "outline", size: "large" }
+                );
+                google.accounts.id.prompt();
+              };
+
+              function handleCredentialResponse(response) {
+                console.log("Encoded JWT ID token: " + response.credential);
+                fetch('/tokensignin', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ id_token: response.credential })
+                }).then(response => {
+                  return response.json();
+                }).then(data => {
+                  console.log(data); // Datos del usuario
+                });
+              }
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      ></body>
     </html>
   );
 }
