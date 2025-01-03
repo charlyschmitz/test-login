@@ -1,5 +1,5 @@
 // app/components/GoogleSignIn.tsx
-'use client';
+"use client";
 import React, { useEffect } from "react";
 
 const GoogleSignIn = () => {
@@ -9,16 +9,18 @@ const GoogleSignIn = () => {
     script.async = true;
     script.defer = true;
     script.onload = () => {
-      google.accounts.id.initialize({
-        client_id:
-          "219903509938-h6nvmjjaj4b457o2duau06cicua1slv8.apps.googleusercontent.com",
-        callback: handleCredentialResponse,
-      });
-      google.accounts.id.renderButton(document.getElementById("g-signin2"), {
-        theme: "outline",
-        size: "large",
-      });
-      google.accounts.id.prompt();
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id:
+            "219903509938-h6nvmjjaj4b457o2duau06cicua1slv8.apps.googleusercontent.com",
+          callback: handleCredentialResponse,
+        });
+        window.google.accounts.id.renderButton(
+          document.getElementById("g-signin2"),
+          { theme: "outline", size: "large" }
+        );
+        window.google.accounts.id.prompt();
+      }
     };
     document.body.appendChild(script);
   }, []);
