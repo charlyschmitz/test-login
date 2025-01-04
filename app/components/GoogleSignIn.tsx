@@ -1,14 +1,20 @@
-// app/components/GoogleSignIn.tsx
 "use client";
-// app/components/GoogleSignIn.tsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 interface GoogleCredentialResponse {
   credential: string;
-  [key: string]: any; // Esto permite otros campos adicionales en la respuesta
+  [key: string]: any;
+}
+
+interface User {
+  name?: string;
+  email?: string;
+  picture?: string;
 }
 
 const GoogleSignIn = () => {
+  const [user, setUser] = useState<User | null>(null);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const script = document.createElement("script");
@@ -35,20 +41,28 @@ const GoogleSignIn = () => {
 
   const handleCredentialResponse = (response: GoogleCredentialResponse) => {
     console.log("Encoded JWT ID token: " + response.credential);
-    fetch("/tokensignin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id_token: response.credential }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data); // Datos del usuario
-      });
+
+    // Decodificar el token y extraer la información del usuario (simplificado)
+    const userPayload = JSON.parse(atob(response.credential.split(".")[1]));
+    setUser({
+      name: userPayload.name,
+      email: userPayload.email,
+      picture: userPayload.picture,
+    });
   };
 
-  return <div id="g-signin2"></div>;
+  return (
+    <div>
+      <div id="g-signin2"></div>
+      {user && (
+        <div>
+          <h3>Bienvenido, {user.name}!</h3>
+          <p>Email: {user.email}</p>
+          {user.picture && <img src={user.picture} alt="User Profile" />}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default GoogleSignIn;
