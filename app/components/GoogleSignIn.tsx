@@ -49,6 +49,15 @@ const GoogleSignIn = () => {
       email: userPayload.email,
       picture: userPayload.picture,
     });
+
+    try {
+      let botonG = document.getElementById("g-signin2");
+      if (botonG != null) {
+        botonG.style.display = "none";
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
