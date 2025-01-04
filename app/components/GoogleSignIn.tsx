@@ -51,7 +51,7 @@ const GoogleSignIn = () => {
     });
 
     try {
-      let botonG = document.getElementById("g-signin2");
+      const botonG = document.getElementById("g-signin2");
       if (botonG != null) {
         botonG.style.display = "none";
       }
