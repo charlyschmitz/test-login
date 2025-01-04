@@ -30,7 +30,7 @@ const GoogleSignIn = () => {
           });
           window.google.accounts.id.renderButton(
             document.getElementById("g-signin2"),
-            { theme: "outline", size: "large" }
+            { theme: "filled_black", size: "large", shape: "circle" }
           );
           window.google.accounts.id.prompt();
         }
@@ -42,8 +42,8 @@ const GoogleSignIn = () => {
   const handleCredentialResponse = (response: GoogleCredentialResponse) => {
     console.log("Encoded JWT ID token: " + response.credential);
 
-    // Decodificar el token y extraer la información del usuario (simplificado)
     const userPayload = JSON.parse(atob(response.credential.split(".")[1]));
+    console.log("Carga de la respuesta ne JSON: " + userPayload);
     setUser({
       name: userPayload.name,
       email: userPayload.email,
