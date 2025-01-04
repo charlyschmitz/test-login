@@ -55,7 +55,7 @@ const GoogleSignIn = () => {
     <div>
       <div id="g-signin2"></div>
       {user && (
-        <div>
+        <div id="user-info">
           <h3>Bienvenido, {user.name}!</h3>
           <p>Email: {user.email}</p>
           {user.picture && <img src={user.picture} alt="User Profile" />}
